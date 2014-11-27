@@ -1,0 +1,439 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AD1673D71A27E33E0046F347 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1673D61A27E33E0046F347 /* AppDelegate.swift */; };
+		AD1673DA1A27E33E0046F347 /* iOSSwiftMetalCamera.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AD1673D81A27E33E0046F347 /* iOSSwiftMetalCamera.xcdatamodeld */; };
+		AD1673DC1A27E33E0046F347 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1673DB1A27E33E0046F347 /* ViewController.swift */; };
+		AD1673DF1A27E33E0046F347 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD1673DD1A27E33E0046F347 /* Main.storyboard */; };
+		AD1673E11A27E33E0046F347 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD1673E01A27E33E0046F347 /* Images.xcassets */; };
+		AD1673E41A27E33E0046F347 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD1673E21A27E33E0046F347 /* LaunchScreen.xib */; };
+		AD1673F01A27E33E0046F347 /* iOSSwiftMetalCameraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1673EF1A27E33E0046F347 /* iOSSwiftMetalCameraTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AD1673EA1A27E33E0046F347 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD1673C91A27E33E0046F347 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD1673D01A27E33E0046F347;
+			remoteInfo = iOSSwiftMetalCamera;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		AD1673D11A27E33E0046F347 /* iOSSwiftMetalCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSSwiftMetalCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD1673D51A27E33E0046F347 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AD1673D61A27E33E0046F347 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		AD1673D91A27E33E0046F347 /* iOSSwiftMetalCamera.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iOSSwiftMetalCamera.xcdatamodel; sourceTree = "<group>"; };
+		AD1673DB1A27E33E0046F347 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		AD1673DE1A27E33E0046F347 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		AD1673E01A27E33E0046F347 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		AD1673E31A27E33E0046F347 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		AD1673E91A27E33E0046F347 /* iOSSwiftMetalCameraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSSwiftMetalCameraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD1673EE1A27E33E0046F347 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AD1673EF1A27E33E0046F347 /* iOSSwiftMetalCameraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSSwiftMetalCameraTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AD1673CE1A27E33E0046F347 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD1673E61A27E33E0046F347 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AD1673C81A27E33E0046F347 = {
+			isa = PBXGroup;
+			children = (
+				AD1673D31A27E33E0046F347 /* iOSSwiftMetalCamera */,
+				AD1673EC1A27E33E0046F347 /* iOSSwiftMetalCameraTests */,
+				AD1673D21A27E33E0046F347 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AD1673D21A27E33E0046F347 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AD1673D11A27E33E0046F347 /* iOSSwiftMetalCamera.app */,
+				AD1673E91A27E33E0046F347 /* iOSSwiftMetalCameraTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AD1673D31A27E33E0046F347 /* iOSSwiftMetalCamera */ = {
+			isa = PBXGroup;
+			children = (
+				AD1673D61A27E33E0046F347 /* AppDelegate.swift */,
+				AD1673DB1A27E33E0046F347 /* ViewController.swift */,
+				AD1673DD1A27E33E0046F347 /* Main.storyboard */,
+				AD1673E01A27E33E0046F347 /* Images.xcassets */,
+				AD1673E21A27E33E0046F347 /* LaunchScreen.xib */,
+				AD1673D81A27E33E0046F347 /* iOSSwiftMetalCamera.xcdatamodeld */,
+				AD1673D41A27E33E0046F347 /* Supporting Files */,
+			);
+			path = iOSSwiftMetalCamera;
+			sourceTree = "<group>";
+		};
+		AD1673D41A27E33E0046F347 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AD1673D51A27E33E0046F347 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AD1673EC1A27E33E0046F347 /* iOSSwiftMetalCameraTests */ = {
+			isa = PBXGroup;
+			children = (
+				AD1673EF1A27E33E0046F347 /* iOSSwiftMetalCameraTests.swift */,
+				AD1673ED1A27E33E0046F347 /* Supporting Files */,
+			);
+			path = iOSSwiftMetalCameraTests;
+			sourceTree = "<group>";
+		};
+		AD1673ED1A27E33E0046F347 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AD1673EE1A27E33E0046F347 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AD1673D01A27E33E0046F347 /* iOSSwiftMetalCamera */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD1673F31A27E33E0046F347 /* Build configuration list for PBXNativeTarget "iOSSwiftMetalCamera" */;
+			buildPhases = (
+				AD1673CD1A27E33E0046F347 /* Sources */,
+				AD1673CE1A27E33E0046F347 /* Frameworks */,
+				AD1673CF1A27E33E0046F347 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iOSSwiftMetalCamera;
+			productName = iOSSwiftMetalCamera;
+			productReference = AD1673D11A27E33E0046F347 /* iOSSwiftMetalCamera.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AD1673E81A27E33E0046F347 /* iOSSwiftMetalCameraTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD1673F61A27E33E0046F347 /* Build configuration list for PBXNativeTarget "iOSSwiftMetalCameraTests" */;
+			buildPhases = (
+				AD1673E51A27E33E0046F347 /* Sources */,
+				AD1673E61A27E33E0046F347 /* Frameworks */,
+				AD1673E71A27E33E0046F347 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AD1673EB1A27E33E0046F347 /* PBXTargetDependency */,
+			);
+			name = iOSSwiftMetalCameraTests;
+			productName = iOSSwiftMetalCameraTests;
+			productReference = AD1673E91A27E33E0046F347 /* iOSSwiftMetalCameraTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AD1673C91A27E33E0046F347 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Bradley Griffith";
+				TargetAttributes = {
+					AD1673D01A27E33E0046F347 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+					AD1673E81A27E33E0046F347 = {
+						CreatedOnToolsVersion = 6.1;
+						TestTargetID = AD1673D01A27E33E0046F347;
+					};
+				};
+			};
+			buildConfigurationList = AD1673CC1A27E33E0046F347 /* Build configuration list for PBXProject "iOSSwiftMetalCamera" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AD1673C81A27E33E0046F347;
+			productRefGroup = AD1673D21A27E33E0046F347 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AD1673D01A27E33E0046F347 /* iOSSwiftMetalCamera */,
+				AD1673E81A27E33E0046F347 /* iOSSwiftMetalCameraTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AD1673CF1A27E33E0046F347 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD1673DF1A27E33E0046F347 /* Main.storyboard in Resources */,
+				AD1673E41A27E33E0046F347 /* LaunchScreen.xib in Resources */,
+				AD1673E11A27E33E0046F347 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD1673E71A27E33E0046F347 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AD1673CD1A27E33E0046F347 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD1673DC1A27E33E0046F347 /* ViewController.swift in Sources */,
+				AD1673DA1A27E33E0046F347 /* iOSSwiftMetalCamera.xcdatamodeld in Sources */,
+				AD1673D71A27E33E0046F347 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD1673E51A27E33E0046F347 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD1673F01A27E33E0046F347 /* iOSSwiftMetalCameraTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AD1673EB1A27E33E0046F347 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD1673D01A27E33E0046F347 /* iOSSwiftMetalCamera */;
+			targetProxy = AD1673EA1A27E33E0046F347 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		AD1673DD1A27E33E0046F347 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AD1673DE1A27E33E0046F347 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		AD1673E21A27E33E0046F347 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AD1673E31A27E33E0046F347 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AD1673F11A27E33E0046F347 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		AD1673F21A27E33E0046F347 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AD1673F41A27E33E0046F347 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = iOSSwiftMetalCamera/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		AD1673F51A27E33E0046F347 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = iOSSwiftMetalCamera/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		AD1673F71A27E33E0046F347 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = iOSSwiftMetalCameraTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOSSwiftMetalCamera.app/iOSSwiftMetalCamera";
+			};
+			name = Debug;
+		};
+		AD1673F81A27E33E0046F347 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = iOSSwiftMetalCameraTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOSSwiftMetalCamera.app/iOSSwiftMetalCamera";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AD1673CC1A27E33E0046F347 /* Build configuration list for PBXProject "iOSSwiftMetalCamera" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD1673F11A27E33E0046F347 /* Debug */,
+				AD1673F21A27E33E0046F347 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD1673F31A27E33E0046F347 /* Build configuration list for PBXNativeTarget "iOSSwiftMetalCamera" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD1673F41A27E33E0046F347 /* Debug */,
+				AD1673F51A27E33E0046F347 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		AD1673F61A27E33E0046F347 /* Build configuration list for PBXNativeTarget "iOSSwiftMetalCameraTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD1673F71A27E33E0046F347 /* Debug */,
+				AD1673F81A27E33E0046F347 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		AD1673D81A27E33E0046F347 /* iOSSwiftMetalCamera.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				AD1673D91A27E33E0046F347 /* iOSSwiftMetalCamera.xcdatamodel */,
+			);
+			currentVersion = AD1673D91A27E33E0046F347 /* iOSSwiftMetalCamera.xcdatamodel */;
+			path = iOSSwiftMetalCamera.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = AD1673C91A27E33E0046F347 /* Project object */;
+}

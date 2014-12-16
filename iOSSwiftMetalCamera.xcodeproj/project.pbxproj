@@ -9,11 +9,20 @@
 /* Begin PBXBuildFile section */
 		AD1673D71A27E33E0046F347 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1673D61A27E33E0046F347 /* AppDelegate.swift */; };
 		AD1673DA1A27E33E0046F347 /* iOSSwiftMetalCamera.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AD1673D81A27E33E0046F347 /* iOSSwiftMetalCamera.xcdatamodeld */; };
-		AD1673DC1A27E33E0046F347 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1673DB1A27E33E0046F347 /* ViewController.swift */; };
+		AD1673DC1A27E33E0046F347 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1673DB1A27E33E0046F347 /* CameraViewController.swift */; };
 		AD1673DF1A27E33E0046F347 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD1673DD1A27E33E0046F347 /* Main.storyboard */; };
 		AD1673E11A27E33E0046F347 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD1673E01A27E33E0046F347 /* Images.xcassets */; };
 		AD1673E41A27E33E0046F347 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD1673E21A27E33E0046F347 /* LaunchScreen.xib */; };
 		AD1673F01A27E33E0046F347 /* iOSSwiftMetalCameraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1673EF1A27E33E0046F347 /* iOSSwiftMetalCameraTests.swift */; };
+		AD1673FA1A27E4360046F347 /* ShaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1673F91A27E4360046F347 /* ShaderView.swift */; };
+		AD1673FC1A27E50E0046F347 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1673FB1A27E50E0046F347 /* Vertex.swift */; };
+		AD1673FE1A27E5320046F347 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1673FD1A27E5320046F347 /* Node.swift */; };
+		AD1674001A27E5450046F347 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1673FF1A27E5450046F347 /* Plane.swift */; };
+		AD1674021A27E59C0046F347 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = AD1674011A27E59C0046F347 /* Shaders.metal */; };
+		AD1674041A27EAEB0046F347 /* CameraSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1674031A27EAEB0046F347 /* CameraSessionController.swift */; };
+		AD63780F1A2956DB00E631CA /* METLTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = AD63780E1A2956DB00E631CA /* METLTexture.m */; };
+		AD6378121A2BC6D000E631CA /* black.png in Resources */ = {isa = PBXBuildFile; fileRef = AD6378111A2BC6D000E631CA /* black.png */; };
+		AD63781A1A2C098500E631CA /* Matrix4.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6378191A2C098500E631CA /* Matrix4.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,13 +40,25 @@
 		AD1673D51A27E33E0046F347 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD1673D61A27E33E0046F347 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AD1673D91A27E33E0046F347 /* iOSSwiftMetalCamera.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iOSSwiftMetalCamera.xcdatamodel; sourceTree = "<group>"; };
-		AD1673DB1A27E33E0046F347 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		AD1673DB1A27E33E0046F347 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		AD1673DE1A27E33E0046F347 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AD1673E01A27E33E0046F347 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AD1673E31A27E33E0046F347 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		AD1673E91A27E33E0046F347 /* iOSSwiftMetalCameraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSSwiftMetalCameraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD1673EE1A27E33E0046F347 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD1673EF1A27E33E0046F347 /* iOSSwiftMetalCameraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSSwiftMetalCameraTests.swift; sourceTree = "<group>"; };
+		AD1673F91A27E4360046F347 /* ShaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShaderView.swift; sourceTree = "<group>"; };
+		AD1673FB1A27E50E0046F347 /* Vertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
+		AD1673FD1A27E5320046F347 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		AD1673FF1A27E5450046F347 /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
+		AD1674011A27E59C0046F347 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		AD1674031A27EAEB0046F347 /* CameraSessionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraSessionController.swift; sourceTree = "<group>"; };
+		AD63780D1A2956DB00E631CA /* METLTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = METLTexture.h; sourceTree = "<group>"; };
+		AD63780E1A2956DB00E631CA /* METLTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = METLTexture.m; sourceTree = "<group>"; };
+		AD6378101A29571500E631CA /* iOSSwiftMetalCamera-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iOSSwiftMetalCamera-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		AD6378111A2BC6D000E631CA /* black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black.png; sourceTree = "<group>"; };
+		AD6378181A2C097E00E631CA /* Matrix4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrix4.h; sourceTree = "<group>"; };
+		AD6378191A2C098500E631CA /* Matrix4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Matrix4.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,10 +101,10 @@
 			isa = PBXGroup;
 			children = (
 				AD1673D61A27E33E0046F347 /* AppDelegate.swift */,
-				AD1673DB1A27E33E0046F347 /* ViewController.swift */,
-				AD1673DD1A27E33E0046F347 /* Main.storyboard */,
+				AD6378131A2BF5A400E631CA /* Support */,
+				AD6378161A2BF5F200E631CA /* Views */,
+				AD6378151A2BF5EA00E631CA /* Controllers */,
 				AD1673E01A27E33E0046F347 /* Images.xcassets */,
-				AD1673E21A27E33E0046F347 /* LaunchScreen.xib */,
 				AD1673D81A27E33E0046F347 /* iOSSwiftMetalCamera.xcdatamodeld */,
 				AD1673D41A27E33E0046F347 /* Supporting Files */,
 			);
@@ -93,6 +114,8 @@
 		AD1673D41A27E33E0046F347 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AD6378111A2BC6D000E631CA /* black.png */,
+				AD6378101A29571500E631CA /* iOSSwiftMetalCamera-Bridging-Header.h */,
 				AD1673D51A27E33E0046F347 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -113,6 +136,56 @@
 				AD1673EE1A27E33E0046F347 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AD6378131A2BF5A400E631CA /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				AD6378171A2BF64100E631CA /* Camera */,
+				AD6378141A2BF5B800E631CA /* Shaders */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		AD6378141A2BF5B800E631CA /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				AD6378191A2C098500E631CA /* Matrix4.m */,
+				AD6378181A2C097E00E631CA /* Matrix4.h */,
+				AD1673FB1A27E50E0046F347 /* Vertex.swift */,
+				AD1673FD1A27E5320046F347 /* Node.swift */,
+				AD1673FF1A27E5450046F347 /* Plane.swift */,
+				AD1674011A27E59C0046F347 /* Shaders.metal */,
+				AD63780D1A2956DB00E631CA /* METLTexture.h */,
+				AD63780E1A2956DB00E631CA /* METLTexture.m */,
+			);
+			name = Shaders;
+			sourceTree = "<group>";
+		};
+		AD6378151A2BF5EA00E631CA /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AD1673DB1A27E33E0046F347 /* CameraViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		AD6378161A2BF5F200E631CA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AD1673E21A27E33E0046F347 /* LaunchScreen.xib */,
+				AD1673DD1A27E33E0046F347 /* Main.storyboard */,
+				AD1673F91A27E4360046F347 /* ShaderView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		AD6378171A2BF64100E631CA /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				AD1674031A27EAEB0046F347 /* CameraSessionController.swift */,
+			);
+			name = Camera;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD1673DF1A27E33E0046F347 /* Main.storyboard in Resources */,
+				AD6378121A2BC6D000E631CA /* black.png in Resources */,
 				AD1673E41A27E33E0046F347 /* LaunchScreen.xib in Resources */,
 				AD1673E11A27E33E0046F347 /* Images.xcassets in Resources */,
 			);
@@ -215,9 +289,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD1673DC1A27E33E0046F347 /* ViewController.swift in Sources */,
+				AD1674021A27E59C0046F347 /* Shaders.metal in Sources */,
+				AD1673DC1A27E33E0046F347 /* CameraViewController.swift in Sources */,
+				AD1673FA1A27E4360046F347 /* ShaderView.swift in Sources */,
 				AD1673DA1A27E33E0046F347 /* iOSSwiftMetalCamera.xcdatamodeld in Sources */,
+				AD1673FE1A27E5320046F347 /* Node.swift in Sources */,
+				AD63780F1A2956DB00E631CA /* METLTexture.m in Sources */,
+				AD1673FC1A27E50E0046F347 /* Vertex.swift in Sources */,
 				AD1673D71A27E33E0046F347 /* AppDelegate.swift in Sources */,
+				AD1674041A27EAEB0046F347 /* CameraSessionController.swift in Sources */,
+				AD63781A1A2C098500E631CA /* Matrix4.m in Sources */,
+				AD1674001A27E5450046F347 /* Plane.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +427,7 @@
 				INFOPLIST_FILE = iOSSwiftMetalCamera/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "iOSSwiftMetalCamera-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -355,6 +438,7 @@
 				INFOPLIST_FILE = iOSSwiftMetalCamera/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "iOSSwiftMetalCamera-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -411,6 +495,7 @@
 				AD1673F51A27E33E0046F347 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AD1673F61A27E33E0046F347 /* Build configuration list for PBXNativeTarget "iOSSwiftMetalCameraTests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +504,7 @@
 				AD1673F81A27E33E0046F347 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

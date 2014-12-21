@@ -79,7 +79,7 @@ class Node: NSObject {
 		}
 		
 		//For now cull mode is used instead of depth buffer
-		renderEncoder.setCullMode(MTLCullMode.Front)
+		renderEncoder.setCullMode(MTLCullMode.None)
 		
 		//Setup uniform buffer
 		var nodeModelMatrix: Matrix4 = self.modelMatrix()

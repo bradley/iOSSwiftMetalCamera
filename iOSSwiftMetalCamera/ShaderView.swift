@@ -201,6 +201,10 @@ class ShaderView: UIView {
 		currentYAngle = newYAngle
 	}
 	
+	func toggleShader(shouldShowShader: Bool) {
+		objectToDraw.showShader = shouldShowShader
+	}
+	
 	func render() {
 		var drawable = metalLayer.nextDrawable()
 		var worldModelMatrix = Matrix4()

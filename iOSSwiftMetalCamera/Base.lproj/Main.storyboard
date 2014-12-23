@@ -15,8 +15,23 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8DI-VV-mXZ">
+                                <rect key="frame" x="276" y="549" width="51" height="31"/>
+                                <connections>
+                                    <action selector="toggleShader:" destination="BYZ-38-t0r" eventType="valueChanged" id="fm2-ZL-ehG"/>
+                                </connections>
+                            </switch>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="8DI-VV-mXZ" secondAttribute="bottom" constant="20" symbolic="YES" id="9Ru-Wh-gMs"/>
+                            <constraint firstItem="8DI-VV-mXZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Kv3-W8-EJu"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="shaderToggler" destination="8DI-VV-mXZ" id="M4q-XV-mh4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

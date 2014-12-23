@@ -27,8 +27,8 @@ class CameraViewController: UIViewController, CameraSessionControllerDelegate {
 		setupShaderView()
 		cameraSessionController = CameraSessionController()
 		cameraSessionController.sessionDelegate = self
-		//setupPreviewLayer()
 		
+		shaderToggler!.on = false
 	}
 	
 	override func viewWillAppear(animated: Bool) {

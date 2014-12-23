@@ -31,6 +31,8 @@ class Node: NSObject {
 	var scaleX:Float    = 1.0
 	var scaleY:Float    = 1.0
 	var scaleZ:Float    = 1.0
+	
+	var showShader:Bool = false
  
 	init(name: String, vertices: Array<Vertex>, device: MTLDevice){
 		var vertexData = Array<Float>()
@@ -79,9 +81,13 @@ class Node: NSObject {
 		}
 		
 		//For now cull mode is used instead of depth buffer
-		renderEncoder.setCullMode(MTLCullMode.Front)
+		renderEncoder.setCullMode(MTLCullMode.None)
 		
-		//Setup uniform buffer
+		// Set metadata buffer
+		var metaDataBuffer = device.newBufferWithBytes(&showShader, length: 1, options: MTLResourceOptions.OptionCPUCacheModeDefault)
+		renderEncoder.setFragmentBuffer(metaDataBuffer, offset: 0, atIndex: 0)
+		
+		// Setup uniform buffer
 		var nodeModelMatrix: Matrix4 = self.modelMatrix()
 		nodeModelMatrix.multiplyLeft(parentModelViewMatrix)
 		
@@ -90,7 +96,7 @@ class Node: NSObject {
 		memcpy(bufferPointer! + sizeof(Float)*16, projectionMatrix.raw(), UInt(sizeof(Float)*16))
 		renderEncoder.setVertexBuffer(self.uniformsBuffer, offset: 0, atIndex: 1)
 		
-		//Draw primitives
+		// Draw primitives
 		renderEncoder.drawPrimitives(.Triangle, vertexStart: 0, vertexCount: self.vertexCount, instanceCount: self.vertexCount/3)
 		renderEncoder.endEncoding()
 		

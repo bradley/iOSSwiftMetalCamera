@@ -29,6 +29,12 @@ class ShaderView: UIView {
 	var unmanagedTextureCache: Unmanaged<CVMetalTextureCache>?
 	var textureCache: CVMetalTextureCacheRef?
 	
+	// World model matrix z position for full-screen video plane.
+	let worldZFullVideo: Float = -1.456
+	
+	var currentXAngle: Float = 0.0
+	var currentYAngle: Float = 0.0
+	var currentZAngle: Float = 0.0
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -46,13 +52,15 @@ class ShaderView: UIView {
 		// Create reference to default metal device.
 		device = MTLCreateSystemDefaultDevice()
 		
-		setupMetalLayer()
 		setupProjectionMatrix()
+		setupMetalLayer()
 		createRenderBuffer()
 		createRenderPipeline()
 		createCommandQueue()
 		createDisplayLink()
 		createTextureCache()
+		
+		setListeners()
 	}
 	
 	func setupMetalLayer() {
@@ -67,7 +75,7 @@ class ShaderView: UIView {
 	}
 	
 	func setupProjectionMatrix() {
-		projectionMatrix = Matrix4()
+		projectionMatrix = Matrix4.makePerspectiveViewAngle(Matrix4.degreesToRad(85.0), aspectRatio: Float(bounds.size.width / bounds.size.height), nearZ: 0.01, farZ: 100.0)
 	}
 	
 	func createRenderBuffer() {
@@ -153,23 +161,14 @@ class ShaderView: UIView {
 		var sourceAspect: CGFloat = sourceExtent.size.width / sourceExtent.size.height
 		var previewAspect: CGFloat = self.bounds.size.width  / self.bounds.size.height
 		
-		var drawRect: CGRect = sourceExtent
-		
 		if (sourceAspect > previewAspect) {
-			// use full height of the video image, and center crop the width
-			objectToDraw.positionX = Float(((sourceExtent.size.width - sourceExtent.size.height * previewAspect) / 2.0) / sourceExtent.size.width)
-			objectToDraw.positionY = 0.0
-			
-			objectToDraw.scaleX = Float((drawRect.size.height * previewAspect) / sourceExtent.size.height)
+			objectToDraw.scaleX = Float(sourceAspect)
 			objectToDraw.scaleY = 1.0
 		} else {
-			// use full width of the video image, and center crop the height
-			objectToDraw.positionX = 0.0
-			objectToDraw.positionY = Float(((sourceExtent.size.height - sourceExtent.size.width / previewAspect) / 2.0) / sourceExtent.size.height);
 			objectToDraw.scaleX = 1.0
-			objectToDraw.scaleY = Float((sourceExtent.size.width / previewAspect) / sourceExtent.size.width)
+			objectToDraw.scaleY = Float(1.0 / sourceAspect)
 		}
-
+		
 		var texture: MTLTexture
 		
 		textureWidth = CVPixelBufferGetWidth(pixelBuffer)
@@ -179,17 +178,39 @@ class ShaderView: UIView {
 		
 		var unmanagedTexture: Unmanaged<CVMetalTexture>?
 		var status: CVReturn = CVMetalTextureCacheCreateTextureFromImage(nil, textureCache, pixelBuffer, nil, pixelFormat, textureWidth!, textureHeight!, 0, &unmanagedTexture)
-		//(0 == kCVReturnSuccess)
+		//Note: 0 = kCVReturnSuccess
 		if (status == 0) {
 			texture = CVMetalTextureGetTexture(unmanagedTexture?.takeRetainedValue());
 			objectToDraw.texture! = texture
 	   }
+	}
+	
+	func setListeners() {
+		let panRecognizer = UIPanGestureRecognizer(target: self, action: "panGesture:")
+		self.addGestureRecognizer(panRecognizer)
+	}
+	
+	func panGesture(sender: UIPanGestureRecognizer) {
+		let translation = sender.translationInView(sender.view!)
+		var newXAngle = (Float)(translation.y)*(Float)(M_PI)/180.0
+		newXAngle += currentXAngle
+		currentXAngle = newXAngle
 		
+		var newYAngle = (Float)(translation.x)*(Float)(M_PI)/180.0
+		newYAngle += currentYAngle
+		currentYAngle = newYAngle
+	}
+	
+	func toggleShader(shouldShowShader: Bool) {
+		objectToDraw.showShader = shouldShowShader
 	}
 	
 	func render() {
 		var drawable = metalLayer.nextDrawable()
 		var worldModelMatrix = Matrix4()
+		//worldModelMatrix.translate(0.0, y: 0.0, z: -5.0)
+		worldModelMatrix.translate(0.0, y: 0.0, z: worldZFullVideo)
+		worldModelMatrix.rotateAroundX(Matrix4.degreesToRad(currentXAngle), y: Matrix4.degreesToRad(currentYAngle), z: 0.0)
 		
 		objectToDraw.render(commandQueue, pipelineState: pipelineState, drawable: drawable, parentModelViewMatrix: worldModelMatrix, projectionMatrix: projectionMatrix ,clearColor: nil)
 		drawable.texture

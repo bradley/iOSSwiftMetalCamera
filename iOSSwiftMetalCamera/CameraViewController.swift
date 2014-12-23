@@ -16,6 +16,7 @@ class CameraViewController: UIViewController, CameraSessionControllerDelegate {
 	var previewLayer: AVCaptureVideoPreviewLayer!
 	var shaderView: ShaderView!
 	
+	@IBOutlet weak var shaderToggler: UISwitch!
 	
 	/* Lifecycle
 	------------------------------------------*/
@@ -58,9 +59,12 @@ class CameraViewController: UIViewController, CameraSessionControllerDelegate {
 	func setupShaderView() {
 		var rect: CGRect = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: view.bounds.width, height: view.bounds.height))
 		shaderView = ShaderView(frame: view.bounds)
-		view.addSubview(shaderView)
+		view.insertSubview(shaderView, atIndex: 0)
 	}
 	
+	@IBAction func toggleShader(sender: AnyObject) {
+		shaderView?.toggleShader(shaderToggler!.on)
+	}
 	
 	/* Delegate Methods
 	------------------------------------------*/

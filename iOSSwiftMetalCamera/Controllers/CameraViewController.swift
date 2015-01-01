@@ -14,9 +14,10 @@ class CameraViewController: UIViewController, CameraSessionControllerDelegate {
 	
 	var cameraSessionController: CameraSessionController!
 	var previewLayer: AVCaptureVideoPreviewLayer!
-	var shaderView: ShaderView!
+	var cameraView: MetalCameraView!
 	
 	@IBOutlet weak var shaderToggler: UISwitch!
+	
 	
 	/* Lifecycle
 	------------------------------------------*/
@@ -58,13 +59,14 @@ class CameraViewController: UIViewController, CameraSessionControllerDelegate {
 	
 	func setupShaderView() {
 		var rect: CGRect = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: view.bounds.width, height: view.bounds.height))
-		shaderView = ShaderView(frame: view.bounds)
-		view.insertSubview(shaderView, atIndex: 0)
+		cameraView = MetalCameraView(frame: view.bounds)
+		view.insertSubview(cameraView, atIndex: 0)
 	}
 	
 	@IBAction func toggleShader(sender: AnyObject) {
-		shaderView?.toggleShader(shaderToggler!.on)
+		cameraView?.toggleShader(shaderToggler!.on)
 	}
+	
 	
 	/* Delegate Methods
 	------------------------------------------*/
@@ -80,7 +82,7 @@ class CameraViewController: UIViewController, CameraSessionControllerDelegate {
 			connection.videoMirrored = true
 		}
 		
-		shaderView.updateTextureFromSampleBuffer(sampleBuffer)
+		cameraView.updateTextureFromSampleBuffer(sampleBuffer)
 	}
 
 }

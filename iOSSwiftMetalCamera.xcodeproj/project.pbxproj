@@ -17,13 +17,16 @@
 		AD1673FC1A27E50E0046F347 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1673FB1A27E50E0046F347 /* Vertex.swift */; };
 		AD1673FE1A27E5320046F347 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1673FD1A27E5320046F347 /* Node.swift */; };
 		AD1674001A27E5450046F347 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1673FF1A27E5450046F347 /* Plane.swift */; };
-		AD1674021A27E59C0046F347 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = AD1674011A27E59C0046F347 /* Shaders.metal */; };
+		AD1674021A27E59C0046F347 /* Basic.metal in Sources */ = {isa = PBXBuildFile; fileRef = AD1674011A27E59C0046F347 /* Basic.metal */; };
 		AD1674041A27EAEB0046F347 /* CameraSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1674031A27EAEB0046F347 /* CameraSessionController.swift */; };
 		AD63780F1A2956DB00E631CA /* METLTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = AD63780E1A2956DB00E631CA /* METLTexture.m */; };
 		AD6378121A2BC6D000E631CA /* black.png in Resources */ = {isa = PBXBuildFile; fileRef = AD6378111A2BC6D000E631CA /* black.png */; };
 		AD63781A1A2C098500E631CA /* Matrix4.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6378191A2C098500E631CA /* Matrix4.m */; };
 		ADD7FDCD1A536841006536A6 /* MetalCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD7FDCC1A536841006536A6 /* MetalCameraView.swift */; };
 		ADD7FDD11A549082006536A6 /* MetalEnvironmentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD7FDD01A549082006536A6 /* MetalEnvironmentController.swift */; };
+		ADD7FDD71A54EA8A006536A6 /* VerticalGuassian.metal in Sources */ = {isa = PBXBuildFile; fileRef = ADD7FDD61A54EA8A006536A6 /* VerticalGuassian.metal */; };
+		ADD7FDD91A54EA9B006536A6 /* HorizontalGuassian.metal in Sources */ = {isa = PBXBuildFile; fileRef = ADD7FDD81A54EA9B006536A6 /* HorizontalGuassian.metal */; };
+		ADD9BDE91A56281000730237 /* Composite.metal in Sources */ = {isa = PBXBuildFile; fileRef = ADD9BDE81A56281000730237 /* Composite.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,7 +54,7 @@
 		AD1673FB1A27E50E0046F347 /* Vertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
 		AD1673FD1A27E5320046F347 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		AD1673FF1A27E5450046F347 /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
-		AD1674011A27E59C0046F347 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		AD1674011A27E59C0046F347 /* Basic.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Basic.metal; sourceTree = "<group>"; };
 		AD1674031A27EAEB0046F347 /* CameraSessionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraSessionController.swift; sourceTree = "<group>"; };
 		AD63780D1A2956DB00E631CA /* METLTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = METLTexture.h; sourceTree = "<group>"; };
 		AD63780E1A2956DB00E631CA /* METLTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = METLTexture.m; sourceTree = "<group>"; };
@@ -61,6 +64,9 @@
 		AD6378191A2C098500E631CA /* Matrix4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Matrix4.m; sourceTree = "<group>"; };
 		ADD7FDCC1A536841006536A6 /* MetalCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalCameraView.swift; sourceTree = "<group>"; };
 		ADD7FDD01A549082006536A6 /* MetalEnvironmentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalEnvironmentController.swift; sourceTree = "<group>"; };
+		ADD7FDD61A54EA8A006536A6 /* VerticalGuassian.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = VerticalGuassian.metal; sourceTree = "<group>"; };
+		ADD7FDD81A54EA9B006536A6 /* HorizontalGuassian.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = HorizontalGuassian.metal; sourceTree = "<group>"; };
+		ADD9BDE81A56281000730237 /* Composite.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Composite.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,7 +158,10 @@
 		AD6378141A2BF5B800E631CA /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
-				AD1674011A27E59C0046F347 /* Shaders.metal */,
+				AD1674011A27E59C0046F347 /* Basic.metal */,
+				ADD7FDD61A54EA8A006536A6 /* VerticalGuassian.metal */,
+				ADD7FDD81A54EA9B006536A6 /* HorizontalGuassian.metal */,
+				ADD9BDE81A56281000730237 /* Composite.metal */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -308,17 +317,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD1674021A27E59C0046F347 /* Shaders.metal in Sources */,
+				AD1674021A27E59C0046F347 /* Basic.metal in Sources */,
 				AD1673DC1A27E33E0046F347 /* CameraViewController.swift in Sources */,
 				AD1673DA1A27E33E0046F347 /* iOSSwiftMetalCamera.xcdatamodeld in Sources */,
 				AD1673FE1A27E5320046F347 /* Node.swift in Sources */,
+				ADD9BDE91A56281000730237 /* Composite.metal in Sources */,
 				AD63780F1A2956DB00E631CA /* METLTexture.m in Sources */,
 				AD1673FC1A27E50E0046F347 /* Vertex.swift in Sources */,
 				ADD7FDCD1A536841006536A6 /* MetalCameraView.swift in Sources */,
 				AD1673D71A27E33E0046F347 /* AppDelegate.swift in Sources */,
 				ADD7FDD11A549082006536A6 /* MetalEnvironmentController.swift in Sources */,
+				ADD7FDD71A54EA8A006536A6 /* VerticalGuassian.metal in Sources */,
 				AD1674041A27EAEB0046F347 /* CameraSessionController.swift in Sources */,
 				AD63781A1A2C098500E631CA /* Matrix4.m in Sources */,
+				ADD7FDD91A54EA9B006536A6 /* HorizontalGuassian.metal in Sources */,
 				AD1674001A27E5450046F347 /* Plane.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

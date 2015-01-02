@@ -14,7 +14,8 @@ import GLKit.GLKMath
 
 protocol NodeDelegate {
 	func renderPassDescriptorForNode(node: Node, drawable: CAMetalDrawable) -> MTLRenderPassDescriptor
-	func encodeRenderEncoderForNode(node: Node, encoder: MTLRenderCommandEncoder, parentModelViewMatrix: Matrix4, projectionMatrix: Matrix4)
+	func configureComputeEncoderForNode(node: Node, encoder: MTLComputeCommandEncoder, parentModelViewMatrix: Matrix4, projectionMatrix: Matrix4)
+	func configureRenderEncoderForNode(node: Node, encoder: MTLRenderCommandEncoder, parentModelViewMatrix: Matrix4, projectionMatrix: Matrix4)
 }
 
 class Node: NSObject {
@@ -71,15 +72,19 @@ class Node: NSObject {
 		// Get commandBuffer from queue, request descriptor for this object from delegate, and encode.
 		let commandBuffer = commandQueue.commandBuffer()
 		let renderPassDescriptor = delegate?.renderPassDescriptorForNode(self, drawable: drawable)
-		let encoder = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor!)!
 		
-		// All shader manipulation is done by delegate.
-		delegate?.encodeRenderEncoderForNode(self, encoder: encoder, parentModelViewMatrix: parentModelViewMatrix, projectionMatrix: projectionMatrix)
+		let computeEncoder = commandBuffer.computeCommandEncoder()
+		delegate?.configureComputeEncoderForNode(self, encoder: computeEncoder, parentModelViewMatrix: parentModelViewMatrix, projectionMatrix: projectionMatrix)
+		computeEncoder.endEncoding()
+		
+		let renderEncoder = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor!)!
+		delegate?.configureRenderEncoderForNode(self, encoder: renderEncoder, parentModelViewMatrix: parentModelViewMatrix, projectionMatrix: projectionMatrix)
+		renderEncoder.endEncoding()
 		
 		// Teardown and Commit
-		encoder.endEncoding()
 		commandBuffer.presentDrawable(drawable)
 		commandBuffer.commit()
+		commandBuffer.waitUntilCompleted()
 	}
 	
 	func modelMatrix() -> Matrix4 {

@@ -56,7 +56,7 @@ class CameraSessionController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
 		
 		self.authorizeCamera();
 		
-		self.sessionQueue = dispatch_queue_create("SLCameraSessionController Session", DISPATCH_QUEUE_SERIAL)
+		self.sessionQueue = dispatch_queue_create("CameraSessionController Session", DISPATCH_QUEUE_SERIAL)
 		
 		dispatch_async(self.sessionQueue, {
 			self.session.beginConfiguration()

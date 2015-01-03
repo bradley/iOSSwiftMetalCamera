@@ -111,7 +111,7 @@
     
     pImage = nil;
     
-    MTLTextureDescriptor *pTexDesc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
+    MTLTextureDescriptor *pTexDesc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:_format
                                                                                         width:width
                                                                                        height:height
                                                                                     mipmapped:NO];

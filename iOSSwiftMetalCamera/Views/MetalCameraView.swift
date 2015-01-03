@@ -17,6 +17,7 @@ class MetalCameraView: UIView, NodeDelegate {
 	
 	var basicVideoPlanePipeline: MTLComputePipelineState!
 	var horizontalGuassianPipeline: MTLComputePipelineState!
+	var testPipeline: MTLRenderPipelineState!
 	var compositePipeline: MTLRenderPipelineState!
 	
 	var textureWidth: UInt?
@@ -26,8 +27,13 @@ class MetalCameraView: UIView, NodeDelegate {
 	let worldZFullVideo: Float = -1.456 // World model matrix z position for full-screen video plane.
 	
 	var videoOutputTexture: MTLTexture?
+	var videoTextureBuffer: MTLRenderPassDescriptor?
+	var currentFrameBuffer: MTLRenderPassDescriptor?
 	
 	var showShader:Bool = false
+	
+	
+	
 	
 	
 	/* Lifecycle
@@ -51,7 +57,6 @@ class MetalCameraView: UIView, NodeDelegate {
 		createTextureCache()
 		createRenderBufferObjects()
 		createRenderPipelineStates()
-		createOutputTextureForVideoPlane()
 		setListeners()
 		
 		metalEnvironment!.run()
@@ -88,8 +93,9 @@ class MetalCameraView: UIView, NodeDelegate {
 		// Create our scene objects.
 		videoPlane = Plane(device: metalDevice!)
 		videoPlane?.delegate = self
-		
+
 		var texture = METLTexture(resourceName: "black", ext: "png")
+		texture.format = MTLPixelFormat.BGRA8Unorm
 		texture.finalize(metalDevice!, flip: false)
 		videoPlane!.samplerState = generateSamplerStateForTexture(metalDevice!)
 		videoPlane!.texture = texture.texture
@@ -129,6 +135,7 @@ class MetalCameraView: UIView, NodeDelegate {
 		// Load all shaders needed for render pipeline
 		let basicRenderKernal = defaultLibrary.newFunctionWithName("basic_render")
 		let horizontalGuassianKernal = defaultLibrary.newFunctionWithName("horizontal_guassian")
+		let testFrag = defaultLibrary.newFunctionWithName("test_fragment")
 		let compositeVert = defaultLibrary.newFunctionWithName("composite_vertex")
 		let compositeFrag = defaultLibrary.newFunctionWithName("composite_fragment")
 		
@@ -150,12 +157,22 @@ class MetalCameraView: UIView, NodeDelegate {
 			println("Failed to create pipeline state, error \(pipelineError)")
 		}
 		
+
+		
 		desc.label = "Composite"
 		desc.vertexFunction = compositeVert
 		desc.fragmentFunction = compositeFrag
 		desc.colorAttachments[0].pixelFormat = .BGRA8Unorm
 		compositePipeline = metalDevice!.newRenderPipelineStateWithDescriptor(desc, error: &pipelineError)
 		if !(horizontalGuassianPipeline != nil) {
+			println("Failed to create pipeline state, error \(pipelineError)")
+		}
+		
+		desc.label = "Test"
+		desc.fragmentFunction = testFrag
+		desc.colorAttachments[0].pixelFormat = .BGRA8Unorm
+		testPipeline = metalDevice!.newRenderPipelineStateWithDescriptor(desc, error: &pipelineError)
+		if !(testPipeline != nil) {
 			println("Failed to create pipeline state, error \(pipelineError)")
 		}
 	}
@@ -211,84 +228,99 @@ class MetalCameraView: UIView, NodeDelegate {
 	}
 	
 	
+	
+	
+
+	func currentVideoTextureBuffer() -> MTLRenderPassDescriptor {
+		if (videoTextureBuffer == nil) {
+			var width = videoPlane!.texture?.width
+			var height = videoPlane!.texture?.height
+			var format = videoPlane!.texture?.pixelFormat
+			var desc = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(format!, width: width!, height: height!, mipmapped: false)
+			videoOutputTexture = metalDevice!.newTextureWithDescriptor(desc)
+		
+			videoTextureBuffer = MTLRenderPassDescriptor()
+			videoTextureBuffer!.colorAttachments[0].texture = videoOutputTexture
+			videoTextureBuffer!.colorAttachments[0].loadAction = MTLLoadAction.Load
+			videoTextureBuffer!.colorAttachments[0].clearColor = MTLClearColor(red: 1.0, green: 1, blue: 1, alpha: 1.0)
+			videoTextureBuffer!.colorAttachments[0].storeAction = MTLStoreAction.Store
+		}
+		
+		return videoTextureBuffer!
+	}
+	
+	func currentFrameBufferForDrawable(drawable: CAMetalDrawable) -> MTLRenderPassDescriptor {
+		if (currentFrameBuffer == nil) {
+			currentFrameBuffer = MTLRenderPassDescriptor()
+			currentFrameBuffer!.colorAttachments[0].texture = drawable.texture
+			currentFrameBuffer!.colorAttachments[0].loadAction = MTLLoadAction.Clear
+			currentFrameBuffer!.colorAttachments[0].clearColor = MTLClearColor(red: 1.0, green: 1, blue: 1, alpha: 1.0)
+			currentFrameBuffer!.colorAttachments[0].storeAction = MTLStoreAction.Store
+		}
+
+		return currentFrameBuffer!
+	}
+	
+
+	
+	
 	/* Delegate Methods
 	------------------------------------------*/
 	
-	// TODO: This descriptor doesn't change between renders as far as I know. Maybe this could be improved.
-	func renderPassDescriptorForNode(node: Node, drawable: CAMetalDrawable) -> MTLRenderPassDescriptor {
-		var desc: MTLRenderPassDescriptor?
-		
-		if (node == videoPlane) {
-			desc = MTLRenderPassDescriptor()
-			desc!.colorAttachments[0].texture = drawable.texture
-			desc!.colorAttachments[0].loadAction = .Clear
-			desc!.colorAttachments[0].clearColor = MTLClearColor(red: 1.0, green: 1, blue: 1, alpha: 1.0)
-			desc!.colorAttachments[0].storeAction = .Store
-		}
-		
-		return desc!
+	func configureCommandBuffer(commandBuffer: MTLCommandBuffer, node: Node, drawable: CAMetalDrawable, parentModelViewMatrix: Matrix4, projectionMatrix: Matrix4) {
+		configureComputeEncoders(commandBuffer, node: node, drawable: drawable, parentModelViewMatrix: parentModelViewMatrix, projectionMatrix: projectionMatrix)
+		configureRenderEncoders(commandBuffer, node: node, drawable: drawable, parentModelViewMatrix: parentModelViewMatrix, projectionMatrix: projectionMatrix)
 	}
 	
-	func configureComputeEncoderForNode(node: Node, encoder: MTLComputeCommandEncoder, parentModelViewMatrix: Matrix4, projectionMatrix: Matrix4) {
-		
-		if (node == videoPlane) {
-			
-			createOutputTextureForVideoPlane()
-
-			// Kernel function programming relies on breaking the workload into chunks (threadgroups) that can
-			//   be executed in parallel on the GPU. Here we essentially break our image data into 64 chunks for the GPU
-			//   to process.
-			var threadgroupCounts = MTLSizeMake(8, 8, 1);
-			var width = videoPlane?.texture?.width
-			var height = videoPlane?.texture?.height
-			var threadgroups = MTLSizeMake(width! / threadgroupCounts.width, height! / threadgroupCounts.height, 1);
-
-			
-			/* Base Encoding
-			------------------------------------------*/
-			encoder.pushDebugGroup("Basic render")
-			encoder.setComputePipelineState(basicVideoPlanePipeline!)
-			encoder.setTexture(videoPlane!.texture!, atIndex: 0)
-			encoder.setTexture(videoOutputTexture, atIndex: 1)
-			encoder.dispatchThreadgroups(threadgroups, threadsPerThreadgroup: threadgroupCounts)
-			
-			encoder.popDebugGroup()
-			/* ---------------------------------------*/
-			
-			/* Horizontal Guassian Blur Encoding
-			------------------------------------------*/
-			encoder.pushDebugGroup("Horizontal Guassian render")
-			encoder.setComputePipelineState(horizontalGuassianPipeline!)
-			encoder.setTexture(videoOutputTexture, atIndex: 0)
-			encoder.setTexture(videoOutputTexture, atIndex: 1)
-			encoder.dispatchThreadgroups(threadgroups, threadsPerThreadgroup: threadgroupCounts)
-			encoder.popDebugGroup()
-			
-			
-			encoder.dispatchThreadgroups(threadgroups, threadsPerThreadgroup: threadgroupCounts)
-			/* ---------------------------------------*/
-		}
+	func configureComputeEncoders(commandBuffer: MTLCommandBuffer, node: Node, drawable: CAMetalDrawable, parentModelViewMatrix: Matrix4, projectionMatrix: Matrix4) {
 	}
 	
-	func configureRenderEncoderForNode(node: Node, encoder: MTLRenderCommandEncoder, parentModelViewMatrix: Matrix4, projectionMatrix: Matrix4) {
-		
+
+	func configureRenderEncoders(commandBuffer: MTLCommandBuffer, node: Node, drawable: CAMetalDrawable, parentModelViewMatrix: Matrix4, projectionMatrix: Matrix4) {
 		if (node == videoPlane) {
+			
+			// Start first pass
+			var firstPassEncoder = commandBuffer.renderCommandEncoderWithDescriptor(currentVideoTextureBuffer())!
+			
+			/* Test Render Encoding
+			------------------------------------------*/
+			firstPassEncoder.pushDebugGroup("Test render")
+			firstPassEncoder.setRenderPipelineState(testPipeline!)
+			firstPassEncoder.setVertexBuffer(videoPlane!.vertexBuffer, offset: 0, atIndex: 0)
+			firstPassEncoder.setFragmentTexture(videoPlane?.texture, atIndex: 0)
+			firstPassEncoder.setFragmentSamplerState(videoPlane!.samplerState!, atIndex: 0)
+			firstPassEncoder.setCullMode(MTLCullMode.None)
+			
+			// Pass uniformBuffer (with data copied) to the vertex shader
+			firstPassEncoder.setVertexBuffer(videoPlane!.uniformsBuffer, offset: 0, atIndex: 1)
+			
+			// Draw primitives
+			firstPassEncoder.drawPrimitives(.Triangle, vertexStart: 0, vertexCount: videoPlane!.vertexCount, instanceCount: videoPlane!.vertexCount / 3)
+			
+			firstPassEncoder.popDebugGroup()
+			/* ---------------------------------------*/
+			
+			firstPassEncoder.endEncoding()
+			
+			
+			
+			// Start second pass
+			var secondPassEncoder = commandBuffer.renderCommandEncoderWithDescriptor(currentFrameBufferForDrawable(drawable))!
 			
 			/* Composite Render Encoding
 			------------------------------------------*/
-			encoder.pushDebugGroup("Composite render")
-			encoder.setRenderPipelineState(compositePipeline!)
-			encoder.setVertexBuffer(videoPlane!.vertexBuffer, offset: 0, atIndex: 0)
-			encoder.setFragmentTexture(videoOutputTexture, atIndex: 0)
-			encoder.setFragmentSamplerState(videoPlane!.samplerState!, atIndex: 0)
-			encoder.setCullMode(MTLCullMode.None)
+			secondPassEncoder.pushDebugGroup("Composite render")
+			secondPassEncoder.setRenderPipelineState(compositePipeline!)
+			secondPassEncoder.setVertexBuffer(videoPlane!.vertexBuffer, offset: 0, atIndex: 0)
+			secondPassEncoder.setFragmentTexture(videoOutputTexture, atIndex: 0)
+			secondPassEncoder.setFragmentSamplerState(videoPlane!.samplerState!, atIndex: 0)
+			secondPassEncoder.setCullMode(MTLCullMode.None)
 			
-//			// Set metadata buffer
-//			var metaDataBuffer = metalDevice!.newBufferWithBytes(&showShader, length: 1, options: MTLResourceOptions.OptionCPUCacheModeDefault)
-//			encoder.setFragmentBuffer(metaDataBuffer, offset: 0, atIndex: 0)
+			//			// Set metadata buffer
+			//			var metaDataBuffer = metalDevice!.newBufferWithBytes(&showShader, length: 1, options: MTLResourceOptions.OptionCPUCacheModeDefault)
+			//			secondPassEncoder.setFragmentBuffer(metaDataBuffer, offset: 0, atIndex: 0)
 			
-			// Setup uniform buffer
-			// Convert the convenience properties (like position and rotation) into a model matrix
+			
 			var nodeModelMatrix: Matrix4 = videoPlane!.modelMatrix()
 			nodeModelMatrix.multiplyLeft(parentModelViewMatrix)
 			// Get a raw pointer from buffer.
@@ -296,13 +328,18 @@ class MetalCameraView: UIView, NodeDelegate {
 			// Copy your matrix data into the buffer
 			memcpy(bufferPointer!, nodeModelMatrix.raw(), UInt(sizeof(Float)*16))
 			memcpy(bufferPointer! + sizeof(Float)*16, projectionMatrix.raw(), UInt(sizeof(Float)*16))
-			// Pass uniformBuffer (with data copied) to the vertex shader
-			encoder.setVertexBuffer(videoPlane!.uniformsBuffer, offset: 0, atIndex: 1)
+			
+			// Setup uniform buffer
+			secondPassEncoder.setVertexBuffer(videoPlane!.uniformsBuffer, offset: 0, atIndex: 1)
 			
 			// Draw primitives
-			encoder.drawPrimitives(.Triangle, vertexStart: 0, vertexCount: videoPlane!.vertexCount, instanceCount: videoPlane!.vertexCount / 3)
-			encoder.popDebugGroup()
+			secondPassEncoder.drawPrimitives(.Triangle, vertexStart: 0, vertexCount: videoPlane!.vertexCount, instanceCount: videoPlane!.vertexCount / 3)
+			secondPassEncoder.popDebugGroup()
 			/* ---------------------------------------*/
+			
+			secondPassEncoder.endEncoding()
+			videoTextureBuffer = nil
+			currentFrameBuffer = nil
 		}
 	}
 	

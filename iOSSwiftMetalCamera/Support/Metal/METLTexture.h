@@ -18,7 +18,7 @@
 @property (nonatomic) uint32_t width;
 @property (nonatomic) uint32_t height;
 @property (nonatomic) uint32_t depth;
-@property (nonatomic) uint32_t format;
+@property (nonatomic) MTLPixelFormat format;
 @property (nonatomic) BOOL hasAlpha;
 @property (nonatomic) NSString *path;
 

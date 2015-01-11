@@ -200,7 +200,7 @@ class CameraSessionController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
 	}
 	
 	
-	/* AVCaptureVideoDataOutput Delegate
+	/* AVCaptureVideoDataOutputSampleBufferDelegate Delegate Methods
 	------------------------------------------*/
 	
 	func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {

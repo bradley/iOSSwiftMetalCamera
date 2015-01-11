@@ -13,7 +13,7 @@ import GLKit.GLKMath
 
 
 protocol NodeDelegate {
-	func configureCommandBuffer(commandBuffer: MTLCommandBuffer, node: Node, drawable: CAMetalDrawable, parentModelViewMatrix: Matrix4, projectionMatrix: Matrix4)
+	func configureCommandBuffer(commandBuffer: MTLCommandBuffer, node: Node, drawable: CAMetalDrawable)
 }
 
 class Node: NSObject {
@@ -62,20 +62,14 @@ class Node: NSObject {
 	}
 	
 	
-	/* Instance Methods
+	/* Public Instance Methods
 	------------------------------------------*/
 	
-	func render(commandQueue: MTLCommandQueue, drawable: CAMetalDrawable, parentModelViewMatrix: Matrix4, projectionMatrix: Matrix4){
+	func render(commandBuffer: MTLCommandBuffer, drawable: CAMetalDrawable){
 		
-		// Get commandBuffer from queue, request descriptor for this object from delegate, and encode.
-		let commandBuffer = commandQueue.commandBuffer()
-		
-		delegate?.configureCommandBuffer(commandBuffer, node: self, drawable: drawable, parentModelViewMatrix: parentModelViewMatrix, projectionMatrix: projectionMatrix)
-		
-		// Teardown and Commit
-		commandBuffer.presentDrawable(drawable)
-		commandBuffer.commit()
-		//commandBuffer.waitUntilCompleted()
+		// This class is simply a base class for all scene objects to inherit from. The way these objects are rendered is the concern 
+		//   the object that creates them. Therefore, we delegate out this task.
+		delegate?.configureCommandBuffer(commandBuffer, node: self, drawable: drawable)
 	}
 	
 	func modelMatrix() -> Matrix4 {

@@ -31,10 +31,9 @@ struct Uniforms {
 /* Vertex Shaders
 	------------------------------------------*/
 
-vertex VertexOut composite_vertex(
-										const device VertexIn*  vertex_array [[ buffer(0) ]],
-										const device Uniforms&  uniforms     [[ buffer(1) ]],
-										unsigned int vid [[ vertex_id ]])
+vertex VertexOut composite_vertex(const device VertexIn *vertex_array [[ buffer(0) ]],
+											 const device Uniforms &uniforms     [[ buffer(1) ]],
+											 unsigned     int      vid           [[ vertex_id ]])
 {
 	
 	float4x4 mv_Matrix = uniforms.modelMatrix;
@@ -54,9 +53,9 @@ vertex VertexOut composite_vertex(
 /* Fragment Shaders
 	------------------------------------------*/
 
-fragment float4 composite_fragment(VertexOut interpolated [[stage_in]],
-										 texture2d<float>  tex2D     [[ texture(0) ]],
-										 sampler           sampler2D [[ sampler(0) ]])
+fragment float4 composite_fragment(VertexOut        interpolated [[stage_in]],
+											  texture2d<float> tex2D        [[ texture(0) ]],
+											  sampler          sampler2D    [[ sampler(0) ]])
 {
 	return tex2D.sample(sampler2D, interpolated.textureCoordinate);
 }

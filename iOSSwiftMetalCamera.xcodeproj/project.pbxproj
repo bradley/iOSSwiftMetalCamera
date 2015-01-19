@@ -27,7 +27,7 @@
 		ADD7FDD71A54EA8A006536A6 /* VerticalGuassian.metal in Sources */ = {isa = PBXBuildFile; fileRef = ADD7FDD61A54EA8A006536A6 /* VerticalGuassian.metal */; };
 		ADD7FDD91A54EA9B006536A6 /* HorizontalGuassian.metal in Sources */ = {isa = PBXBuildFile; fileRef = ADD7FDD81A54EA9B006536A6 /* HorizontalGuassian.metal */; };
 		ADD9BDE91A56281000730237 /* Composite.metal in Sources */ = {isa = PBXBuildFile; fileRef = ADD9BDE81A56281000730237 /* Composite.metal */; };
-		ADD9BDEB1A563E0200730237 /* Test.metal in Sources */ = {isa = PBXBuildFile; fileRef = ADD9BDEA1A563E0200730237 /* Test.metal */; };
+		ADD9BDEB1A563E0200730237 /* RGBShift.metal in Sources */ = {isa = PBXBuildFile; fileRef = ADD9BDEA1A563E0200730237 /* RGBShift.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,7 +68,7 @@
 		ADD7FDD61A54EA8A006536A6 /* VerticalGuassian.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = VerticalGuassian.metal; sourceTree = "<group>"; };
 		ADD7FDD81A54EA9B006536A6 /* HorizontalGuassian.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = HorizontalGuassian.metal; sourceTree = "<group>"; };
 		ADD9BDE81A56281000730237 /* Composite.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Composite.metal; sourceTree = "<group>"; };
-		ADD9BDEA1A563E0200730237 /* Test.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Test.metal; sourceTree = "<group>"; };
+		ADD9BDEA1A563E0200730237 /* RGBShift.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RGBShift.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,7 +164,7 @@
 				ADD7FDD61A54EA8A006536A6 /* VerticalGuassian.metal */,
 				ADD7FDD81A54EA9B006536A6 /* HorizontalGuassian.metal */,
 				ADD9BDE81A56281000730237 /* Composite.metal */,
-				ADD9BDEA1A563E0200730237 /* Test.metal */,
+				ADD9BDEA1A563E0200730237 /* RGBShift.metal */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -331,7 +331,7 @@
 				AD1673D71A27E33E0046F347 /* AppDelegate.swift in Sources */,
 				ADD7FDD11A549082006536A6 /* MetalEnvironmentController.swift in Sources */,
 				ADD7FDD71A54EA8A006536A6 /* VerticalGuassian.metal in Sources */,
-				ADD9BDEB1A563E0200730237 /* Test.metal in Sources */,
+				ADD9BDEB1A563E0200730237 /* RGBShift.metal in Sources */,
 				AD1674041A27EAEB0046F347 /* CameraSessionController.swift in Sources */,
 				AD63781A1A2C098500E631CA /* Matrix4.m in Sources */,
 				ADD7FDD91A54EA9B006536A6 /* HorizontalGuassian.metal in Sources */,

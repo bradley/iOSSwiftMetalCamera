@@ -33,7 +33,7 @@ struct Uniforms {
 
 vertex VertexOut composite_vertex(const device VertexIn *vertex_array [[ buffer(0) ]],
 											 const device Uniforms &uniforms     [[ buffer(1) ]],
-											 unsigned     int      vid           [[ vertex_id ]])
+											 unsigned     int          vid           [[ vertex_id ]])
 {
 	
 	float4x4 mv_Matrix = uniforms.modelMatrix;

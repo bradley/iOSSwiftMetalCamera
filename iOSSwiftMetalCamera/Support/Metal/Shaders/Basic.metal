@@ -9,10 +9,29 @@
 #include <metal_stdlib>
 using namespace metal;
 
-kernel void basic_render(texture2d<float,access::read> inputTex [[ texture(0) ]],
-								 texture2d<float,access::write> outputTex [[ texture(1) ]],
-								 uint2 gid [[ thread_position_in_grid ]])
+struct VertexIn {
+	packed_float3 position;
+	packed_float4 color;
+	packed_float2 textureCoordinate;
+};
+
+struct VertexOut {
+	float4 position [[position]];
+	float4 color;
+	float2 textureCoordinate;
+};
+
+
+/* Vertex Shaders
+	------------------------------------------*/
+
+vertex VertexOut basic_vertex(const device VertexIn *vertex_array [[ buffer(0) ]],
+										unsigned     int      vid           [[ vertex_id ]])
 {
-	float4 inColor = inputTex.read(gid);
-	outputTex.write(inColor, gid);
+	VertexOut out;
+	out.position = float4(vertex_array[vid].position, 1.0f);
+	out.color = vertex_array[vid].color;
+	out.textureCoordinate = vertex_array[vid].textureCoordinate;
+	
+	return out;
 }

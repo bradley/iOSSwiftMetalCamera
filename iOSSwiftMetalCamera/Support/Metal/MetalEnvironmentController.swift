@@ -94,6 +94,24 @@ class MetalEnvironmentController: NSObject {
 		commandBuffer.commit()
 	}
 	
+	private func _makeOrthographicMatrix() -> [Float] {
+		let left: Float = 0.0
+		let right: Float = Float(metalLayer.frame.width)
+		let bottom: Float = 0.0
+		let top: Float = Float(metalLayer.frame.height)
+		let near: Float = -1.0
+		let far: Float = 1.0
+		
+		let ral = right + left
+		let rsl = right - left
+		let tab = top + bottom
+		let tsb = top - bottom
+		let fan = far + near
+		let fsn = far - near
+		
+		return [2.0 / rsl, 0.0, 0.0, 0.0, 0.0, 2.0 / tsb, 0.0, 0.0, 0.0, 0.0, -2.0 / fsn, 0.0, -ral / rsl, -tab / tsb, -fan / fsn, 1.0]
+	}
+	
 	
 	/* Public Instance Methods
 	------------------------------------------*/
@@ -109,18 +127,6 @@ class MetalEnvironmentController: NSObject {
 		autoreleasepool {
 			self._render()
 		}
-	}
-	
-	func sceneAdjustedUniformsBufferForNode(node: Node) -> MTLBuffer {
-		var nodeModelMatrix: Matrix4 = node.modelMatrix()
-		nodeModelMatrix.multiplyLeft(worldModelMatrix)
-		// Get a raw pointer from buffer.
-		var bufferPointer = node.uniformsBuffer?.contents()
-		// Copy your matrix data into the buffer
-		memcpy(bufferPointer!, nodeModelMatrix.raw(), UInt(sizeof(Float)*16))
-		memcpy(bufferPointer! + sizeof(Float)*16, projectionMatrix.raw(), UInt(sizeof(Float)*16))
-		
-		return node.uniformsBuffer!
 	}
 	
 	func pushObjectToScene(objectToDraw: Node) {

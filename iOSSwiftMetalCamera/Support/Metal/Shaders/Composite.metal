@@ -27,19 +27,18 @@ struct Uniforms {
 	float4x4 projectionMatrix;
 };
 
-
 /* Vertex Shaders
 	------------------------------------------*/
 
 vertex VertexOut composite_vertex(const device VertexIn *vertex_array [[ buffer(0) ]],
 											 const device Uniforms &uniforms     [[ buffer(1) ]],
-											 unsigned     int          vid           [[ vertex_id ]])
+											 unsigned     int      vid           [[ vertex_id ]])
 {
 	
 	float4x4 mv_Matrix = uniforms.modelMatrix;
 	float4x4 proj_Matrix = uniforms.projectionMatrix;
 	
-	float4 fragmentPos4 = mv_Matrix * float4(vertex_array[vid].position, 1.0);
+	float4 fragmentPos4 = mv_Matrix * float4(vertex_array[vid].position * -1.0, 1.0);
 	
 	VertexOut out;
 	out.position = proj_Matrix * fragmentPos4;

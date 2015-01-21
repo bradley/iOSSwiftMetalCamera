@@ -52,6 +52,7 @@ class MetalCameraView: UIView, NodeDelegate {
 		_createTextureCache()
 		_createRenderBufferObjects()
 		_createRenderPipelineStates()
+		_createOutputTextureForVideoPlane()
 		_setListeners()
 		
 		metalEnvironment!.run()
@@ -77,11 +78,20 @@ class MetalCameraView: UIView, NodeDelegate {
 	}
 	
 	private func _createOutputTextureForVideoPlane() {
-		var width = videoPlane!.texture?.width
-		var height = videoPlane!.texture?.height
-		var format = videoPlane!.texture?.pixelFormat
-		var desc = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(format!, width: width!, height: height!, mipmapped: true)
+		let width = 1280
+		let height = 720
+		let format = videoPlane!.texture?.pixelFormat
+		let desc = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(format!, width: width, height: height, mipmapped: true)
 		videoOutputTexture = metalDevice!.newTextureWithDescriptor(desc)
+		
+		let texture = METLTexture(resourceName: "black", ext: "png")
+		texture.finalize(metalDevice!, flip: true)
+		
+		videoTextureBuffer = MTLRenderPassDescriptor()
+		videoTextureBuffer!.colorAttachments[0].texture = videoOutputTexture
+		videoTextureBuffer!.colorAttachments[0].loadAction = MTLLoadAction.Load
+		videoTextureBuffer!.colorAttachments[0].clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 1.0)
+		videoTextureBuffer!.colorAttachments[0].storeAction = MTLStoreAction.Store
 	}
 	
 	private func _createRenderBufferObjects() {
@@ -160,34 +170,13 @@ class MetalCameraView: UIView, NodeDelegate {
 		let panRecognizer = UIPanGestureRecognizer(target: self, action: "panGesture:")
 		self.addGestureRecognizer(panRecognizer)
 	}
-
-	private func _currentVideoTextureBuffer() -> MTLRenderPassDescriptor {
-		if (videoTextureBuffer == nil) {
-			let width = videoPlane!.texture?.width
-			let height = videoPlane!.texture?.height
-			let format = videoPlane!.texture?.pixelFormat
-			let desc = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(format!, width: width!, height: height!, mipmapped: true)
-			videoOutputTexture = metalDevice!.newTextureWithDescriptor(desc)
-			
-			let texture = METLTexture(resourceName: "black", ext: "png")
-			texture.finalize(metalDevice!, flip: false)
-			
-			videoTextureBuffer = MTLRenderPassDescriptor()
-			videoTextureBuffer!.colorAttachments[0].texture = videoOutputTexture
-			videoTextureBuffer!.colorAttachments[0].loadAction = MTLLoadAction.Load
-			videoTextureBuffer!.colorAttachments[0].clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 1.0)
-			videoTextureBuffer!.colorAttachments[0].storeAction = MTLStoreAction.Store
-		}
-		
-		return videoTextureBuffer!
-	}
 	
 	private func _currentFrameBufferForDrawable(drawable: CAMetalDrawable) -> MTLRenderPassDescriptor {
 		if (currentFrameBuffer == nil) {
 			currentFrameBuffer = MTLRenderPassDescriptor()
 			currentFrameBuffer!.colorAttachments[0].texture = drawable.texture
 			currentFrameBuffer!.colorAttachments[0].loadAction = MTLLoadAction.Clear
-			currentFrameBuffer!.colorAttachments[0].clearColor = MTLClearColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+			currentFrameBuffer!.colorAttachments[0].clearColor = MTLClearColorMake(0.5, 0.5, 0.5, 1)
 			currentFrameBuffer!.colorAttachments[0].storeAction = MTLStoreAction.Store
 		}
 		
@@ -200,8 +189,14 @@ class MetalCameraView: UIView, NodeDelegate {
 	private func _configureRenderEncoders(commandBuffer: MTLCommandBuffer, node: Node, drawable: CAMetalDrawable) {
 		if (node == videoPlane) {
 			
+			// NOTE:
+			//   The use of multiple passes here is to display how one could use multiple passes to effect
+			//   and reuse a single texture. Multiple passes wouldnt be totally necessary in a real app for 
+			//   our very basic needs here.
+			
+			
 			// Start first pass
-			var firstPassEncoder = commandBuffer.renderCommandEncoderWithDescriptor(_currentVideoTextureBuffer())!
+			var firstPassEncoder = commandBuffer.renderCommandEncoderWithDescriptor(videoTextureBuffer!)!
 			
 			/* Test Render Encoding
 			------------------------------------------*/
@@ -211,6 +206,10 @@ class MetalCameraView: UIView, NodeDelegate {
 			firstPassEncoder.setFragmentTexture(videoPlane?.texture, atIndex: 0)
 			firstPassEncoder.setFragmentSamplerState(videoPlane!.samplerState!, atIndex: 0)
 			firstPassEncoder.setCullMode(MTLCullMode.None)
+			
+			// Set metadata buffer
+			var metaDataBuffer = metalDevice!.newBufferWithBytes(&showShader, length: 1, options: MTLResourceOptions.OptionCPUCacheModeDefault)
+			firstPassEncoder.setFragmentBuffer(metaDataBuffer, offset: 0, atIndex: 0)
 			
 			// Draw primitives
 			firstPassEncoder.drawPrimitives(
@@ -224,7 +223,6 @@ class MetalCameraView: UIView, NodeDelegate {
 			/* ---------------------------------------*/
 			
 			firstPassEncoder.endEncoding()
-
 			
 			
 			// Start second pass
@@ -239,12 +237,10 @@ class MetalCameraView: UIView, NodeDelegate {
 			secondPassEncoder.setFragmentSamplerState(videoPlane!.samplerState!, atIndex: 0)
 			secondPassEncoder.setCullMode(MTLCullMode.None)
 			
-//			// Set metadata buffer
-//			var metaDataBuffer = metalDevice!.newBufferWithBytes(&showShader, length: 1, options: MTLResourceOptions.OptionCPUCacheModeDefault)
-//			secondPassEncoder.setFragmentBuffer(metaDataBuffer, offset: 0, atIndex: 0)
-			
 			// Setup uniform buffer
-			secondPassEncoder.setVertexBuffer(metalEnvironment?.sceneAdjustedUniformsBufferForNode(videoPlane!), offset: 0, atIndex: 1)
+			var worldMatrix = metalEnvironment?.worldModelMatrix
+			var projectionMatrix = metalEnvironment?.projectionMatrix
+			secondPassEncoder.setVertexBuffer(videoPlane?.sceneAdjustedUniformsBufferForworldModelMatrix(worldMatrix!, projectionMatrix: projectionMatrix!), offset: 0, atIndex: 1)
 			
 			// Draw primitives
 			secondPassEncoder.drawPrimitives(
@@ -260,7 +256,7 @@ class MetalCameraView: UIView, NodeDelegate {
 			secondPassEncoder.endEncoding()
 			
 			
-			videoTextureBuffer = nil
+			//videoTextureBuffer = nil
 			currentFrameBuffer = nil
 		}
 	}

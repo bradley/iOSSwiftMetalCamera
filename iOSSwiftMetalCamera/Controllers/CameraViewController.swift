@@ -73,10 +73,7 @@ class CameraViewController: UIViewController, CameraSessionControllerDelegate {
 	
 	func cameraSessionDidOutputSampleBuffer(sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
 		if (connection.supportsVideoOrientation) {
-			// NOTE: Video comes in upside down and mirrored when using the front camera.
-			//   Rather than manually rotating it, setting orientation to PortraitUpsideDown here
-			//   is a simple and efficient solution.
-			connection.videoOrientation = AVCaptureVideoOrientation.PortraitUpsideDown
+			connection.videoOrientation = AVCaptureVideoOrientation.Portrait
 		}
 		if (connection.supportsVideoMirroring) {
 			connection.videoMirrored = true

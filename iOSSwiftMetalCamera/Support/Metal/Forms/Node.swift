@@ -79,5 +79,17 @@ class Node: NSObject {
 		matrix.scale(scaleX, y: scaleY, z: scaleZ)
 		return matrix
 	}
+	
+	func sceneAdjustedUniformsBufferForworldModelMatrix(worldModelMatrix: Matrix4, projectionMatrix: Matrix4) -> MTLBuffer {
+		var nodeModelMatrix: Matrix4 = modelMatrix()
+		nodeModelMatrix.multiplyLeft(worldModelMatrix)
+		// Get a raw pointer from buffer.
+		var bufferPointer = uniformsBuffer?.contents()
+		// Copy your matrix data into the buffer
+		memcpy(bufferPointer!, nodeModelMatrix.raw(), UInt(sizeof(Float)*16))
+		memcpy(bufferPointer! + sizeof(Float)*16, projectionMatrix.raw(), UInt(sizeof(Float)*16))
+		
+		return uniformsBuffer!
+	}
  
 }

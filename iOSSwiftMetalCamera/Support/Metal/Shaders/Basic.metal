@@ -29,7 +29,7 @@ vertex VertexOut basic_vertex(const device VertexIn *vertex_array [[ buffer(0) ]
 										unsigned     int      vid           [[ vertex_id ]])
 {
 	VertexOut out;
-	out.position = float4(vertex_array[vid].position * -1.0, 1.0f);
+	out.position = float4(vertex_array[vid].position * float3(-1.0, 1.0, 1.0), 1.0);
 	out.color = vertex_array[vid].color;
 	out.textureCoordinate = vertex_array[vid].textureCoordinate;
 	

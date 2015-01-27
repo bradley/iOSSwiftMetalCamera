@@ -26,6 +26,7 @@
 		ADD7FDD11A549082006536A6 /* MetalEnvironmentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD7FDD01A549082006536A6 /* MetalEnvironmentController.swift */; };
 		ADD9BDE91A56281000730237 /* Composite.metal in Sources */ = {isa = PBXBuildFile; fileRef = ADD9BDE81A56281000730237 /* Composite.metal */; };
 		ADD9BDEB1A563E0200730237 /* RGBShift.metal in Sources */ = {isa = PBXBuildFile; fileRef = ADD9BDEA1A563E0200730237 /* RGBShift.metal */; };
+		ADE918C61A6F89AA00BD5FE5 /* Guassian.metal in Sources */ = {isa = PBXBuildFile; fileRef = ADE918C51A6F89AA00BD5FE5 /* Guassian.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		ADD7FDD01A549082006536A6 /* MetalEnvironmentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalEnvironmentController.swift; sourceTree = "<group>"; };
 		ADD9BDE81A56281000730237 /* Composite.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Composite.metal; sourceTree = "<group>"; };
 		ADD9BDEA1A563E0200730237 /* RGBShift.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RGBShift.metal; sourceTree = "<group>"; };
+		ADE918C51A6F89AA00BD5FE5 /* Guassian.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Guassian.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,8 +159,9 @@
 			isa = PBXGroup;
 			children = (
 				AD1674011A27E59C0046F347 /* Basic.metal */,
-				ADD9BDE81A56281000730237 /* Composite.metal */,
 				ADD9BDEA1A563E0200730237 /* RGBShift.metal */,
+				ADE918C51A6F89AA00BD5FE5 /* Guassian.metal */,
+				ADD9BDE81A56281000730237 /* Composite.metal */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 			files = (
 				AD1674021A27E59C0046F347 /* Basic.metal in Sources */,
 				AD1673DC1A27E33E0046F347 /* CameraViewController.swift in Sources */,
+				ADE918C61A6F89AA00BD5FE5 /* Guassian.metal in Sources */,
 				AD1673DA1A27E33E0046F347 /* iOSSwiftMetalCamera.xcdatamodeld in Sources */,
 				AD1673FE1A27E5320046F347 /* Node.swift in Sources */,
 				ADD9BDE91A56281000730237 /* Composite.metal in Sources */,

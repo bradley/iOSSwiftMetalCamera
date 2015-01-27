@@ -38,7 +38,7 @@ vertex VertexOut composite_vertex(const device VertexIn *vertex_array [[ buffer(
 	float4x4 mv_Matrix = uniforms.modelMatrix;
 	float4x4 proj_Matrix = uniforms.projectionMatrix;
 	
-	float4 fragmentPos4 = mv_Matrix * float4(vertex_array[vid].position * -1.0, 1.0);
+	float4 fragmentPos4 = mv_Matrix * float4(vertex_array[vid].position * float3(-1.0, 1.0, 1.0), 1.0);
 	
 	VertexOut out;
 	out.position = proj_Matrix * fragmentPos4;
@@ -52,7 +52,7 @@ vertex VertexOut composite_vertex(const device VertexIn *vertex_array [[ buffer(
 /* Fragment Shaders
 	------------------------------------------*/
 
-fragment float4 composite_fragment(VertexOut        interpolated [[stage_in]],
+fragment float4 composite_fragment(VertexOut        interpolated [[ stage_in ]],
 											  texture2d<float> tex2D        [[ texture(0) ]],
 											  sampler          sampler2D    [[ sampler(0) ]])
 {

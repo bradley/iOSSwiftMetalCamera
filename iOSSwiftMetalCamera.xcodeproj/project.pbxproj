@@ -20,13 +20,13 @@
 		AD1674021A27E59C0046F347 /* Basic.metal in Sources */ = {isa = PBXBuildFile; fileRef = AD1674011A27E59C0046F347 /* Basic.metal */; };
 		AD1674041A27EAEB0046F347 /* CameraSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1674031A27EAEB0046F347 /* CameraSessionController.swift */; };
 		AD63780F1A2956DB00E631CA /* METLTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = AD63780E1A2956DB00E631CA /* METLTexture.m */; };
-		AD6378121A2BC6D000E631CA /* black.png in Resources */ = {isa = PBXBuildFile; fileRef = AD6378111A2BC6D000E631CA /* black.png */; };
 		AD63781A1A2C098500E631CA /* Matrix4.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6378191A2C098500E631CA /* Matrix4.m */; };
 		ADD7FDCD1A536841006536A6 /* MetalCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD7FDCC1A536841006536A6 /* MetalCameraView.swift */; };
 		ADD7FDD11A549082006536A6 /* MetalEnvironmentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD7FDD01A549082006536A6 /* MetalEnvironmentController.swift */; };
 		ADD9BDE91A56281000730237 /* Composite.metal in Sources */ = {isa = PBXBuildFile; fileRef = ADD9BDE81A56281000730237 /* Composite.metal */; };
 		ADD9BDEB1A563E0200730237 /* RGBShift.metal in Sources */ = {isa = PBXBuildFile; fileRef = ADD9BDEA1A563E0200730237 /* RGBShift.metal */; };
-		ADE918C61A6F89AA00BD5FE5 /* Guassian.metal in Sources */ = {isa = PBXBuildFile; fileRef = ADE918C51A6F89AA00BD5FE5 /* Guassian.metal */; };
+		ADD9F42A1A81DDDC0069A24A /* spiral.png in Resources */ = {isa = PBXBuildFile; fileRef = ADD9F4291A81DDDC0069A24A /* spiral.png */; };
+		ADD9F42C1A8202770069A24A /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = ADD9F42B1A8202770069A24A /* blank.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,14 +59,14 @@
 		AD63780D1A2956DB00E631CA /* METLTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = METLTexture.h; sourceTree = "<group>"; };
 		AD63780E1A2956DB00E631CA /* METLTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = METLTexture.m; sourceTree = "<group>"; };
 		AD6378101A29571500E631CA /* iOSSwiftMetalCamera-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iOSSwiftMetalCamera-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
-		AD6378111A2BC6D000E631CA /* black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black.png; sourceTree = "<group>"; };
 		AD6378181A2C097E00E631CA /* Matrix4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrix4.h; sourceTree = "<group>"; };
 		AD6378191A2C098500E631CA /* Matrix4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Matrix4.m; sourceTree = "<group>"; };
 		ADD7FDCC1A536841006536A6 /* MetalCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalCameraView.swift; sourceTree = "<group>"; };
 		ADD7FDD01A549082006536A6 /* MetalEnvironmentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalEnvironmentController.swift; sourceTree = "<group>"; };
 		ADD9BDE81A56281000730237 /* Composite.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Composite.metal; sourceTree = "<group>"; };
 		ADD9BDEA1A563E0200730237 /* RGBShift.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RGBShift.metal; sourceTree = "<group>"; };
-		ADE918C51A6F89AA00BD5FE5 /* Guassian.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Guassian.metal; sourceTree = "<group>"; };
+		ADD9F4291A81DDDC0069A24A /* spiral.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = spiral.png; path = ../spiral.png; sourceTree = "<group>"; };
+		ADD9F42B1A8202770069A24A /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blank.png; path = Views/blank.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,7 +122,8 @@
 		AD1673D41A27E33E0046F347 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				AD6378111A2BC6D000E631CA /* black.png */,
+				ADD9F42B1A8202770069A24A /* blank.png */,
+				ADD9F4291A81DDDC0069A24A /* spiral.png */,
 				AD6378101A29571500E631CA /* iOSSwiftMetalCamera-Bridging-Header.h */,
 				AD1673D51A27E33E0046F347 /* Info.plist */,
 			);
@@ -160,7 +161,6 @@
 			children = (
 				AD1674011A27E59C0046F347 /* Basic.metal */,
 				ADD9BDEA1A563E0200730237 /* RGBShift.metal */,
-				ADE918C51A6F89AA00BD5FE5 /* Guassian.metal */,
 				ADD9BDE81A56281000730237 /* Composite.metal */,
 			);
 			path = Shaders;
@@ -195,8 +195,8 @@
 		ADD7FDCE1A548FA9006536A6 /* Metal */ = {
 			isa = PBXGroup;
 			children = (
-				AD6378191A2C098500E631CA /* Matrix4.m */,
 				AD6378181A2C097E00E631CA /* Matrix4.h */,
+				AD6378191A2C098500E631CA /* Matrix4.m */,
 				AD63780D1A2956DB00E631CA /* METLTexture.h */,
 				AD63780E1A2956DB00E631CA /* METLTexture.m */,
 				ADD7FDCF1A54901B006536A6 /* Forms */,
@@ -296,10 +296,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADD9F42A1A81DDDC0069A24A /* spiral.png in Resources */,
 				AD1673DF1A27E33E0046F347 /* Main.storyboard in Resources */,
-				AD6378121A2BC6D000E631CA /* black.png in Resources */,
 				AD1673E41A27E33E0046F347 /* LaunchScreen.xib in Resources */,
 				AD1673E11A27E33E0046F347 /* Images.xcassets in Resources */,
+				ADD9F42C1A8202770069A24A /* blank.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,7 +320,6 @@
 			files = (
 				AD1674021A27E59C0046F347 /* Basic.metal in Sources */,
 				AD1673DC1A27E33E0046F347 /* CameraViewController.swift in Sources */,
-				ADE918C61A6F89AA00BD5FE5 /* Guassian.metal in Sources */,
 				AD1673DA1A27E33E0046F347 /* iOSSwiftMetalCamera.xcdatamodeld in Sources */,
 				AD1673FE1A27E5320046F347 /* Node.swift in Sources */,
 				ADD9BDE91A56281000730237 /* Composite.metal in Sources */,

@@ -42,10 +42,18 @@ vertex VertexOut composite_vertex(const device VertexIn *vertex_array [[ buffer(
 	
 	VertexOut out;
 	out.position = proj_Matrix * fragmentPos4;
+	//out.position = float4(vertex_array[vid].position * float3(-1.0, 1.0, 1.0), 1.0);
 	out.color = vertex_array[vid].color;
 	out.textureCoordinate = vertex_array[vid].textureCoordinate;
 	
 	return out;
+	
+//	VertexOut out;
+//	out.position = float4(vertex_array[vid].position * float3(-1.0, 1.0, 1.0), 1.0);
+//	out.color = vertex_array[vid].color;
+//	out.textureCoordinate = vertex_array[vid].textureCoordinate;
+//	
+//	return out;
 }
 
 

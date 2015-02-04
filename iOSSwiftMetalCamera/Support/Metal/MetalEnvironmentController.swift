@@ -46,7 +46,7 @@ class MetalEnvironmentController: NSObject {
 	------------------------------------------*/
 	
 	private func _setupProjectionMatrix() {
-		projectionMatrix = Matrix4.makePerspectiveViewAngle(Matrix4.degreesToRad(85.0), aspectRatio: Float(view.bounds.size.width / view.bounds.size.height), nearZ: 0.01, farZ: 100.0)
+		projectionMatrix = Matrix4.makePerspectiveViewAngle(Matrix4.degreesToRad(85.0), aspectRatio: Float(view.bounds.size.width / view.bounds.size.height), nearZ: 0.1, farZ: 100.0)
 	}
 	
 	private func _setupMetalLayer() {
@@ -133,4 +133,20 @@ class MetalEnvironmentController: NSObject {
 		sceneObjects.append(objectToDraw)
 	}
 	
+	
+	func generateMipmapsAcceleratedFromTexture(texture: MTLTexture, toTexture: MTLTexture, completionBlock:(texture: MTLTexture) -> Void) {
+		let commandBuffer = commandQueue.commandBuffer()
+		let commandEncoder = commandBuffer?.blitCommandEncoder()
+		let origin = MTLOriginMake(0, 0, 0)
+		let size = MTLSizeMake(texture.width, texture.height, 1)
+
+		commandEncoder?.copyFromTexture(texture, sourceSlice: 0, sourceLevel: 0, sourceOrigin: origin, sourceSize: size, toTexture: toTexture, destinationSlice: 0, destinationLevel: 0, destinationOrigin: origin)
+		
+		commandEncoder?.generateMipmapsForTexture(toTexture)
+		commandEncoder?.endEncoding()
+		commandBuffer?.addCompletedHandler({ (MTLCommandBuffer) -> Void in
+			completionBlock(texture: texture)
+		})
+		commandBuffer?.commit()
+	}
 }

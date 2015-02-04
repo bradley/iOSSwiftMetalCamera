@@ -17,8 +17,6 @@ class MetalCameraView: UIView, NodeDelegate {
 	
 	var rgbShiftPipeline: MTLRenderPipelineState!
 	var compositePipeline: MTLRenderPipelineState!
-	var horizontalGuassianPipeline: MTLRenderPipelineState!
-	var verticalGuassianPipeline: MTLRenderPipelineState!
 	
 	var textureWidth: UInt?
 	var textureHeight: UInt?
@@ -28,10 +26,6 @@ class MetalCameraView: UIView, NodeDelegate {
 	
 	var videoOutputTexture: MTLTexture?
 	var videoTextureBuffer: MTLRenderPassDescriptor?
-	var horizontalGuassianTexture: MTLTexture?
-	var horizontalGuassianBuffer: MTLRenderPassDescriptor?
-	var verticalGuassianTexture: MTLTexture?
-	var verticalGuassianBuffer: MTLRenderPassDescriptor?
 	var currentFrameBuffer: MTLRenderPassDescriptor?
 	
 	var showShader:Bool = false
@@ -59,7 +53,6 @@ class MetalCameraView: UIView, NodeDelegate {
 		_createRenderBufferObjects()
 		_createRenderPipelineStates()
 		_createOutputTextureForVideoPlane()
-		_createOutputTexturesForGuassian()
 		_setListeners()
 		
 		metalEnvironment!.run()
@@ -85,8 +78,8 @@ class MetalCameraView: UIView, NodeDelegate {
 	}
 	
 	private func _createOutputTextureForVideoPlane() {
-		let width = 1280
-		let height = 720
+		let width = 720
+		let height = 1280
 		let format = videoPlane!.texture?.pixelFormat
 		let desc = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(format!, width: width, height: height, mipmapped: true)
 		videoOutputTexture = metalDevice!.newTextureWithDescriptor(desc)
@@ -98,37 +91,18 @@ class MetalCameraView: UIView, NodeDelegate {
 		videoTextureBuffer!.colorAttachments[0].storeAction = MTLStoreAction.Store
 	}
 	
-	private func _createOutputTexturesForGuassian() {
-		let width = 1280
-		let height = 720
-		let format = videoPlane!.texture?.pixelFormat
-		let desc = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(format!, width: width, height: height, mipmapped: true)
-		horizontalGuassianTexture = metalDevice!.newTextureWithDescriptor(desc)
-		verticalGuassianTexture = metalDevice!.newTextureWithDescriptor(desc)
-		
-		horizontalGuassianBuffer = MTLRenderPassDescriptor()
-		horizontalGuassianBuffer!.colorAttachments[0].texture = horizontalGuassianTexture
-		horizontalGuassianBuffer!.colorAttachments[0].loadAction = MTLLoadAction.Load
-		horizontalGuassianBuffer!.colorAttachments[0].clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 1.0)
-		horizontalGuassianBuffer!.colorAttachments[0].storeAction = MTLStoreAction.Store
-		
-		verticalGuassianBuffer = MTLRenderPassDescriptor()
-		verticalGuassianBuffer!.colorAttachments[0].texture = verticalGuassianTexture
-		verticalGuassianBuffer!.colorAttachments[0].loadAction = MTLLoadAction.Load
-		verticalGuassianBuffer!.colorAttachments[0].clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 1.0)
-		verticalGuassianBuffer!.colorAttachments[0].storeAction = MTLStoreAction.Store
-	}
-	
 	private func _createRenderBufferObjects() {
 		// Create our scene objects.
 		videoPlane = Plane(device: metalDevice!)
 		videoPlane?.delegate = self
 
-		var texture = METLTexture(resourceName: "black", ext: "png")
+		// Blank png just for example. Could load anything or not use an image at all. You just need a texture.
+		var texture = METLTexture(resourceName: "blank", ext: "png")
 		texture.format = MTLPixelFormat.BGRA8Unorm
 		texture.finalize(metalDevice!, flip: false)
 		videoPlane!.samplerState = _generateSamplerStateForTexture(metalDevice!)
 		videoPlane!.texture = texture.texture
+		videoPlane!.positionZ = worldZFullVideo
 		
 		metalEnvironment!.pushObjectToScene(videoPlane!)
 	}
@@ -138,8 +112,8 @@ class MetalCameraView: UIView, NodeDelegate {
 		
 		if let sampler = pSamplerDescriptor
 		{
-			sampler.minFilter             = MTLSamplerMinMagFilter.Nearest
-			sampler.magFilter             = MTLSamplerMinMagFilter.Nearest
+			sampler.minFilter             = MTLSamplerMinMagFilter.Linear
+			sampler.magFilter             = MTLSamplerMinMagFilter.Linear
 			sampler.mipFilter             = MTLSamplerMipFilter.NotMipmapped
 			sampler.maxAnisotropy         = 1
 			sampler.sAddressMode          = MTLSamplerAddressMode.ClampToEdge
@@ -167,10 +141,6 @@ class MetalCameraView: UIView, NodeDelegate {
 		let rgbShiftFrag = defaultLibrary.newFunctionWithName("rgb_shift_fragment")
 		let compositeVert = defaultLibrary.newFunctionWithName("composite_vertex")
 		let compositeFrag = defaultLibrary.newFunctionWithName("composite_fragment")
-		let horizontalGuasVert = defaultLibrary.newFunctionWithName("horizontal_guassian_vertex")
-		let horizontalGuasFrag = defaultLibrary.newFunctionWithName("horizontal_guassian_fragment")
-		let verticalGuasVert = defaultLibrary.newFunctionWithName("vertical_guassian_vertex")
-		let verticalGuasFrag = defaultLibrary.newFunctionWithName("vertical_guassian_fragment")
 		
 		// Setup pipeline
 		let desc = MTLRenderPipelineDescriptor()
@@ -191,24 +161,6 @@ class MetalCameraView: UIView, NodeDelegate {
 		desc.colorAttachments[0].pixelFormat = .BGRA8Unorm
 		rgbShiftPipeline = metalDevice!.newRenderPipelineStateWithDescriptor(desc, error: &pipelineError)
 		if !(rgbShiftPipeline != nil) {
-			println("Failed to create pipeline state, error \(pipelineError)")
-		}
-		
-		desc.label = "HorizontalGuassian"
-		desc.vertexFunction = horizontalGuasVert
-		desc.fragmentFunction = horizontalGuasFrag
-		desc.colorAttachments[0].pixelFormat = .BGRA8Unorm
-		horizontalGuassianPipeline = metalDevice!.newRenderPipelineStateWithDescriptor(desc, error: &pipelineError)
-		if !(horizontalGuassianPipeline != nil) {
-			println("Failed to create pipeline state, error \(pipelineError)")
-		}
-		
-		desc.label = "VerticalGuassian"
-		desc.vertexFunction = verticalGuasVert
-		desc.fragmentFunction = verticalGuasFrag
-		desc.colorAttachments[0].pixelFormat = .BGRA8Unorm
-		verticalGuassianPipeline = metalDevice!.newRenderPipelineStateWithDescriptor(desc, error: &pipelineError)
-		if !(verticalGuassianPipeline != nil) {
 			println("Failed to create pipeline state, error \(pipelineError)")
 		}
 	}
@@ -266,21 +218,22 @@ class MetalCameraView: UIView, NodeDelegate {
 			firstPassEncoder.endEncoding()
 			
 			
-			
-			
-			
-			
 			// Start second pass
-			var secondPassEncoder = commandBuffer.renderCommandEncoderWithDescriptor(horizontalGuassianBuffer!)!
+			var secondPassEncoder = commandBuffer.renderCommandEncoderWithDescriptor(_currentFrameBufferForDrawable(drawable))!
 			
-			/* Test Render Encoding
+			/* Composite Render Encoding
 			------------------------------------------*/
-			secondPassEncoder.pushDebugGroup("HorizontalGuassian render")
-			secondPassEncoder.setRenderPipelineState(horizontalGuassianPipeline!)
+			secondPassEncoder.pushDebugGroup("Composite render")
+			secondPassEncoder.setRenderPipelineState(compositePipeline!)
 			secondPassEncoder.setVertexBuffer(videoPlane!.vertexBuffer, offset: 0, atIndex: 0)
 			secondPassEncoder.setFragmentTexture(videoOutputTexture, atIndex: 0)
 			secondPassEncoder.setFragmentSamplerState(videoPlane!.samplerState!, atIndex: 0)
 			secondPassEncoder.setCullMode(MTLCullMode.None)
+			
+			// Setup uniform buffer
+			var worldMatrix = metalEnvironment?.worldModelMatrix
+			var projectionMatrix = metalEnvironment?.projectionMatrix
+			secondPassEncoder.setVertexBuffer(videoPlane?.sceneAdjustedUniformsBufferForworldModelMatrix(worldMatrix!, projectionMatrix: projectionMatrix!), offset: 0, atIndex: 1)
 			
 			// Draw primitives
 			secondPassEncoder.drawPrimitives(
@@ -294,73 +247,6 @@ class MetalCameraView: UIView, NodeDelegate {
 			/* ---------------------------------------*/
 			
 			secondPassEncoder.endEncoding()
-			
-			
-			
-			
-			
-			
-			
-			// Start third pass
-			var thirdPassEncoder = commandBuffer.renderCommandEncoderWithDescriptor(verticalGuassianBuffer!)!
-			
-			/* Test Render Encoding
-			------------------------------------------*/
-			thirdPassEncoder.pushDebugGroup("HorizontalGuassian render")
-			thirdPassEncoder.setRenderPipelineState(verticalGuassianPipeline!)
-			thirdPassEncoder.setVertexBuffer(videoPlane!.vertexBuffer, offset: 0, atIndex: 0)
-			thirdPassEncoder.setFragmentTexture(horizontalGuassianTexture, atIndex: 0)
-			thirdPassEncoder.setFragmentSamplerState(videoPlane!.samplerState!, atIndex: 0)
-			thirdPassEncoder.setCullMode(MTLCullMode.None)
-			
-			// Draw primitives
-			thirdPassEncoder.drawPrimitives(
-				.Triangle,
-				vertexStart: 0,
-				vertexCount: videoPlane!.vertexCount,
-				instanceCount: videoPlane!.vertexCount / 3
-			)
-			
-			thirdPassEncoder.popDebugGroup()
-			/* ---------------------------------------*/
-			
-			thirdPassEncoder.endEncoding()
-			
-			
-			
-			
-			
-			
-			
-			// Start fourth pass
-			var fourthPassEncoder = commandBuffer.renderCommandEncoderWithDescriptor(_currentFrameBufferForDrawable(drawable))!
-			
-			/* Composite Render Encoding
-			------------------------------------------*/
-			fourthPassEncoder.pushDebugGroup("Composite render")
-			fourthPassEncoder.setRenderPipelineState(compositePipeline!)
-			fourthPassEncoder.setVertexBuffer(videoPlane!.vertexBuffer, offset: 0, atIndex: 0)
-			fourthPassEncoder.setFragmentTexture(verticalGuassianTexture, atIndex: 0)
-			fourthPassEncoder.setFragmentSamplerState(videoPlane!.samplerState!, atIndex: 0)
-			fourthPassEncoder.setCullMode(MTLCullMode.None)
-			
-			// Setup uniform buffer
-			var worldMatrix = metalEnvironment?.worldModelMatrix
-			var projectionMatrix = metalEnvironment?.projectionMatrix
-			fourthPassEncoder.setVertexBuffer(videoPlane?.sceneAdjustedUniformsBufferForworldModelMatrix(worldMatrix!, projectionMatrix: projectionMatrix!), offset: 0, atIndex: 1)
-			
-			// Draw primitives
-			fourthPassEncoder.drawPrimitives(
-				.Triangle,
-				vertexStart: 0,
-				vertexCount: videoPlane!.vertexCount,
-				instanceCount: videoPlane!.vertexCount / 3
-			)
-			
-			fourthPassEncoder.popDebugGroup()
-			/* ---------------------------------------*/
-			
-			fourthPassEncoder.endEncoding()
 			
 			
 			//videoTextureBuffer = nil
@@ -391,30 +277,34 @@ class MetalCameraView: UIView, NodeDelegate {
 		
 		var sourceExtent: CGRect = sourceImage.extent()
 		var sourceAspect: CGFloat = sourceExtent.size.width / sourceExtent.size.height
-		var previewAspect: CGFloat = self.bounds.size.width  / self.bounds.size.height
 		
-		if (sourceAspect > previewAspect) {
-			videoPlane!.scaleX = Float(sourceAspect)
+		textureWidth = CVPixelBufferGetWidth(pixelBuffer)
+		textureHeight = CVPixelBufferGetHeight(pixelBuffer)
+		
+		if (textureWidth! < textureWidth!) {
+			videoPlane!.scaleX = Float(1.0 / sourceAspect)
 			videoPlane!.scaleY = 1.0
 		} else {
 			videoPlane!.scaleX = 1.0
 			videoPlane!.scaleY = Float(1.0 / sourceAspect)
 		}
-		videoPlane!.positionZ = worldZFullVideo
 		
 		var texture: MTLTexture
-		
-		textureWidth = CVPixelBufferGetWidth(pixelBuffer)
-		textureHeight = CVPixelBufferGetHeight(pixelBuffer)
-		
 		var pixelFormat: MTLPixelFormat = MTLPixelFormat.BGRA8Unorm
-		
 		var unmanagedTexture: Unmanaged<CVMetalTexture>?
 		var status: CVReturn = CVMetalTextureCacheCreateTextureFromImage(nil, textureCache, pixelBuffer, nil, pixelFormat, textureWidth!, textureHeight!, 0, &unmanagedTexture)
 		// Note: 0 = kCVReturnSuccess
 		if (status == 0) {
 			texture = CVMetalTextureGetTexture(unmanagedTexture?.takeRetainedValue());
-			videoPlane!.texture! = texture
+			
+			// Note: If performance becomes an issue or you know you dont need mipmapping here,
+			//   you can remove the lines that follow and just use `videoPlane!.texture! = texture`
+			let format = videoPlane!.texture?.pixelFormat
+			let desc = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(format!, width: Int(textureWidth!), height: Int(textureHeight!), mipmapped: true)
+			var tempTexture = metalDevice!.newTextureWithDescriptor(desc)
+			metalEnvironment?.generateMipmapsAcceleratedFromTexture(texture, toTexture: tempTexture, completionBlock: { (newTexture) -> Void in
+				self.videoPlane!.texture! = newTexture
+			})
 		}
 	}
 	

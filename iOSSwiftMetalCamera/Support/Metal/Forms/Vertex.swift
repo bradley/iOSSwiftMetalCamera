@@ -6,11 +6,13 @@
 //  Copyright (c) 2014 Bradley Griffith. All rights reserved.
 //
 
+
+
+
 struct Vertex{
-	
-	var x,y,z: Float
-	var r,g,b,a: Float
-	var s,t: Float
+	var x,y,z: Float   // Postion
+	var r,g,b,a: Float // Color
+	var s,t: Float     // Texture Coordinate
 	
 	func floatBuffer() -> [Float]{
 		return [x,y,z,r,g,b,a,s,t]

@@ -114,7 +114,7 @@ class MetalCameraView: UIView, NodeDelegate {
 		{
 			sampler.minFilter             = MTLSamplerMinMagFilter.Linear
 			sampler.magFilter             = MTLSamplerMinMagFilter.Linear
-			sampler.mipFilter             = MTLSamplerMipFilter.NotMipmapped
+			sampler.mipFilter             = MTLSamplerMipFilter.Linear
 			sampler.maxAnisotropy         = 1
 			sampler.sAddressMode          = MTLSamplerAddressMode.ClampToEdge
 			sampler.tAddressMode          = MTLSamplerAddressMode.ClampToEdge
